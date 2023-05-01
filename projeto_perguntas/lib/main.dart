@@ -23,10 +23,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
   ];
 
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
-    print(_perguntaSelecionada);
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
   }
 
   bool get temPerguntaSelecionada {
@@ -35,21 +36,23 @@ class _PerguntaAppState extends State<PerguntaApp> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = temPerguntaSelecionada 
-    ? _perguntas[_perguntaSelecionada]['respostas'] as List<String> 
-    : [];
+    List<String> respostas = temPerguntaSelecionada
+        ? _perguntas[_perguntaSelecionada]['respostas'] as List<String>
+        : [];
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Perguntas'),
         ),
-        body: temPerguntaSelecionada ? Column(
-          children: [
-            Questao(_perguntas[_perguntaSelecionada]['texto'] as String),
-            ...respostas.map((t) => Respostas(t, _responder)).toList(),
-          ],
-        ) : null,
+        body: temPerguntaSelecionada
+            ? Column(
+                children: [
+                  Questao(_perguntas[_perguntaSelecionada]['texto'] as String),
+                  ...respostas.map((t) => Respostas(t, _responder)).toList(),
+                ],
+              )
+            : null,
       ),
     );
   }
